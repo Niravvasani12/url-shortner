@@ -1,0 +1,83 @@
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  font-family: sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+}
+
+/* LEFT SIDE */
+.login-left {
+  flex: 1;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.login-left h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.login-left p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.login-left .animation img {
+  max-width: 80%;
+  height: auto;
+}
+
+/* RIGHT SIDE */
+.login-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  /* optionally add slight white background for form */
+  /* background: rgba(255, 255, 255, 0.05); */
+}
+
+.card.form {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.1); /* slight transparency */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  background-color: #2575fc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #ff6b6b;
+  margin-top: 0.5rem;
+}
+
+.muted {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #ccc;
+}

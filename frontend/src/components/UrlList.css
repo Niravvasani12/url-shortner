@@ -1,0 +1,163 @@
+/* Add these styles to your Dashboard.css or Login.css */
+
+/* Split Layout for UrlForm */
+.url-form-split-layout {
+  display: flex;
+  min-height: 600px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.url-form-left {
+  flex: 1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 60px 40px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.url-form-left h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: -0.025em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.url-form-left p {
+  font-size: 1.25rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+  line-height: 1.8;
+  max-width: 400px;
+}
+
+.url-form-animation {
+  margin-top: 40px;
+}
+
+.url-form-animation img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.url-form-right {
+  flex: 1;
+  padding: 60px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.url-form-compact {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  width: 100%;
+  max-width: 450px;
+}
+
+.url-form-compact h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 8px;
+  text-align: center;
+  letter-spacing: -0.025em;
+}
+
+.url-form-compact > p {
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 1rem;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design for Split Layout */
+@media (max-width: 1024px) {
+  .url-form-split-layout {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .url-form-left {
+    padding: 40px 20px;
+  }
+
+  .url-form-left h1 {
+    font-size: 2.5rem;
+  }
+
+  .url-form-right {
+    padding: 40px 20px;
+  }
+
+  .url-form-compact {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .url-form-left h1 {
+    font-size: 2rem;
+  }
+
+  .url-form-left p {
+    font-size: 1.125rem;
+  }
+
+  .url-form-compact {
+    padding: 30px 24px;
+  }
+
+  .url-form-compact h2 {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .url-form-left {
+    padding: 30px 16px;
+  }
+
+  .url-form-left h1 {
+    font-size: 1.75rem;
+  }
+
+  .url-form-compact {
+    padding: 24px 20px;
+  }
+}
