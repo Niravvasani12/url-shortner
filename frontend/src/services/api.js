@@ -1,17 +1,19 @@
+/* eslint-disable no-undef */
 import axios from "axios";
 
+const BASE_URL =
+  process.env.REACT_APP_API_URL || process.env.REACT_APP_LOCAL_API;
+
 const api = axios.create({
-  baseURL: "https://url-shortner-black-nine.vercel.app/api", // deployed backend URL
+  baseURL: BASE_URL,
 });
 
-// Attach token automatically (if present)
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
-// Add response interceptor for error handling
 api.interceptors.response.use(
   (response) => response,
   (error) => {
