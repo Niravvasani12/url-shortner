@@ -39,18 +39,43 @@
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  /* optionally add slight white background for form */
-  /* background: rgba(255, 255, 255, 0.05); */
 }
 
 .card.form {
   width: 100%;
   max-width: 400px;
-  background: rgba(255, 255, 255, 0.1); /* slight transparency */
+  background: rgba(255, 255, 255, 0.1);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   color: #fff;
+}
+
+.card.form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.card.form input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.card.form input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.card.form input:focus {
+  outline: none;
+  border-color: #2575fc;
 }
 
 .btn {
@@ -73,6 +98,13 @@
 .error {
   color: #ff6b6b;
   margin-top: 0.5rem;
+  text-align: center;
+}
+
+.success {
+  color: #51cf66;
+  margin-top: 0.5rem;
+  text-align: center;
 }
 
 .muted {
@@ -80,4 +112,47 @@
   text-align: center;
   font-size: 0.9rem;
   color: #ccc;
+}
+
+.muted b {
+  color: #fff;
+}
+
+.muted a {
+  color: #2575fc;
+  text-decoration: none;
+}
+
+.muted a:hover {
+  text-decoration: underline;
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .login-page {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .login-left {
+    padding: 1rem;
+  }
+
+  .login-left h1 {
+    font-size: 2rem;
+  }
+
+  .login-left p {
+    font-size: 1rem;
+  }
+
+  .login-right {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .card.form {
+    width: 100%;
+    max-width: 100%;
+  }
 }

@@ -42,7 +42,10 @@ connectDB();
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/url", urlRoutes);
-
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
 // Handle favicon.ico (to stop 500s)
 app.get("/favicon.ico", (req, res) => res.status(204));
 
