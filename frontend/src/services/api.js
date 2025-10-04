@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // ✅ Always wrap your URL in quotes
-const BASE_URL = "http://localhost:5000/api";
+// const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://url-shortner-chi-livid.vercel.app/";
 
 const api = axios.create({
   baseURL: BASE_URL,
