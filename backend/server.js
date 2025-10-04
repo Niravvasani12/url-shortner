@@ -4,7 +4,6 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import urlRoutes from "./routes/urlRoutes.js";
-import serverless from "serverless-http";
 
 dotenv.config();
 const app = express();
@@ -20,15 +19,16 @@ connectDB();
 app.use("/api/auth", authRoutes);
 app.use("/api/url", urlRoutes);
 
-// Root route (important for testing on vercel)
+// Root route
 app.get("/", (req, res) => {
-  res.send("🚀 Backend is running on Vercel!");
+  res.send("🚀 Backend is running in traditional Express mode!");
 });
 
 // Handle favicon.ico
 app.get("/favicon.ico", (req, res) => res.status(204));
 
-// ❌ REMOVE app.listen()
-// ✅ Only export for serverless
-export const handler = serverless(app);
-export default app;
+// ✅ Traditional server (NOT serverless)
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
