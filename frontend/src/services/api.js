@@ -1,21 +1,7 @@
-// import axios from "axios";
-
-// const api = axios.create({
-//   baseURL: "http://localhost:5000/api", // must match backend
-// });
-
-// // Attach token automatically (if present)
-// api.interceptors.request.use((config) => {
-//   const token = localStorage.getItem("token");
-//   if (token) config.headers.Authorization = `Bearer ${token}`;
-//   return config;
-// });
-
-// export default api;
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api", // This already includes /api
+  baseURL: "https://url-shortner-black-nine.vercel.app/api", // deployed backend URL
 });
 
 // Attach token automatically (if present)
