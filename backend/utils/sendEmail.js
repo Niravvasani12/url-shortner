@@ -14,7 +14,7 @@ export const sendOtpMail = async (to, otp) => {
       from: process.env.EMAIL_USER,
       to,
       subject: "Your OTP Code",
-      text: `Your OTP is ${otp}. It will expire in 10 minutes.   send by Nirav Vasani`,
+      text: `Your OTP is ${otp}. It will expire in 10 minutes. send by Niv Vasani`,
     });
 
     console.log("✅ OTP email sent to", to);

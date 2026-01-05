@@ -24,10 +24,11 @@ app.get("/", (req, res) => {
   res.send("🚀 Backend is running in traditional Express mode!");
 });
 
-// Handle favicon.ico
+// Handle favicon.icon
 app.get("/favicon.ico", (req, res) => res.status(204));
 
 // ✅ Traditional server (NOT serverless)
+// 2
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
