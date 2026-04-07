@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { verifyOtp } from "../services/auth";
+import { verifyOtp, resendOtp } from "../services/auth";
 import "./VerifyOtp.css";
 
 const VerifyOtp = () => {
@@ -9,6 +9,7 @@ const VerifyOtp = () => {
   const [err, setErr] = useState("");
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
+  const [resending, setResending] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +30,19 @@ const VerifyOtp = () => {
     setMsg("Verified! You can login now.");
     sessionStorage.removeItem("pendingEmail");
     setTimeout(() => navigate("/login"), 800);
+  };
+
+  const onResend = async () => {
+    if (!email || resending) return;
+
+    setErr("");
+    setMsg("");
+    setResending(true);
+    const res = await resendOtp(email);
+    setResending(false);
+
+    if (!res.ok) return setErr(res.message);
+    setMsg(res.message);
   };
 
   return (
@@ -64,6 +78,16 @@ const VerifyOtp = () => {
           <button className="btn" disabled={busy}>
             {busy ? "Verifying..." : "Verify"}
           </button>
+          <p className="muted">
+            <button
+              type="button"
+              className="link-button"
+              onClick={onResend}
+              disabled={resending}
+            >
+              {resending ? "Sending new OTP..." : "Resend OTP"}
+            </button>
+          </p>
           <p className="muted">
             <Link to="/signup">Edit email</Link>
           </p>

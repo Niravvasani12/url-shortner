@@ -125,6 +125,24 @@
   text-decoration: none;
 }
 
+.link-button {
+  background: none;
+  border: none;
+  color: #2575fc;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.link-button:disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+.link-button:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
 .muted a:hover {
   text-decoration: underline;
 }

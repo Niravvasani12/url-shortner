@@ -19,6 +19,18 @@ export const verifyOtp = async ({ email, otp }) => {
   }
 };
 
+export const resendOtp = async (email) => {
+  try {
+    const res = await api.post("/auth/resend-otp", { email });
+    return { ok: true, message: res.data?.msg };
+  } catch (err) {
+    return {
+      ok: false,
+      message: err.response?.data?.msg || "Failed to resend OTP",
+    };
+  }
+};
+
 export const loginUser = async (data) => {
   // data: { email, password }
   try {
