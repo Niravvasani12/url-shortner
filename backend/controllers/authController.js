@@ -64,12 +64,11 @@ export const resendOtp = async (req, res) => {
     user.otp = otp;
     user.otpExpires = new Date(Date.now() + OTP_EXPIRY_MS);
 
-    // await sendOtpMail(normalizedEmail, otp);
+    await sendOtpMail(normalizedEmail, otp);
     await user.save();
 
     res.json({ msg: "A new OTP has been sent to your email." });
   } catch (err) {
-    console.error("SIGNUP ERROR:", err);
     res.status(500).json({ msg: "Server error", error: err.message });
   }
 };
