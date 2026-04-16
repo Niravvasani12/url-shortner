@@ -1,13 +1,15 @@
 import Url from "../models/Url.js";
 import shortid from "shortid";
 
+const getPublicBaseUrl = (req) => {
+  return process.env.PUBLIC_BASE_URL || `${req.protocol}://${req.get("host")}`;
+};
+
 // Create short URL
 export const createUrl = async (req, res) => {
   try {
     const { originalUrl } = req.body;
     const userId = req.user.id;
-
-    console.log("Creating URL for user:", userId, "URL:", originalUrl);
 
     if (!originalUrl) {
       return res.status(400).json({ msg: "Original URL required" });
@@ -23,7 +25,6 @@ export const createUrl = async (req, res) => {
     // Check if already exists FOR THIS USER
     const existing = await Url.findOne({ originalUrl, userId });
     if (existing) {
-      console.log("URL already exists:", existing);
       return res.json(existing);
     }
 
@@ -34,14 +35,12 @@ export const createUrl = async (req, res) => {
 
     while (!isUnique && attempts < 10) {
       shortCode = shortid.generate();
-      console.log("Generated shortCode:", shortCode);
 
       const existingCode = await Url.findOne({ shortCode });
       if (!existingCode) {
         isUnique = true;
       } else {
         attempts++;
-        console.log("Short code exists, trying again...");
       }
     }
 
@@ -51,16 +50,7 @@ export const createUrl = async (req, res) => {
         .json({ msg: "Failed to generate unique short code" });
     }
 
-    const shortUrl = `${req.protocol}://${req.get(
-      "host"
-    )}/api/url/${shortCode}`;
-
-    console.log("Creating new URL with:", {
-      originalUrl,
-      shortUrl,
-      shortCode,
-      userId,
-    });
+    const shortUrl = `${getPublicBaseUrl(req)}/api/url/${shortCode}`;
 
     const newUrl = new Url({
       originalUrl,
@@ -70,11 +60,10 @@ export const createUrl = async (req, res) => {
     });
 
     await newUrl.save();
-    console.log("URL saved successfully:", newUrl);
 
     res.status(201).json(newUrl);
   } catch (err) {
-    console.error("Error creating short URL:", err);
+    console.error("Error creating short URL:", err.message);
 
     // Handle duplicate key error specifically
     if (err.code === 11000) {
@@ -104,7 +93,6 @@ export const getUserUrls = async (req, res) => {
 export const redirectUrl = async (req, res) => {
   try {
     const { code } = req.params;
-    console.log("Redirecting for code:", code);
 
     const url = await Url.findOne({ shortCode: code });
     if (!url) {
@@ -115,7 +103,6 @@ export const redirectUrl = async (req, res) => {
     url.clicks += 1;
     await url.save();
 
-    console.log("Redirecting to:", url.originalUrl);
     return res.redirect(url.originalUrl);
   } catch (err) {
     res.status(500).json({ msg: "Server error", error: err.message });
@@ -138,5 +125,23 @@ export const deleteUrl = async (req, res) => {
     res.json({ msg: "URL deleted successfully" });
   } catch (err) {
     res.status(500).json({ msg: "Server error", error: err.message });
+  }
+};
+
+export const getUrlStats = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const url = await Url.findOne({ _id: id, userId }).select(
+      "originalUrl shortUrl shortCode clicks createdAt updatedAt"
+    );
+    if (!url) {
+      return res.status(404).json({ msg: "URL not found" });
+    }
+
+    return res.json(url);
+  } catch (err) {
+    return res.status(500).json({ msg: "Server error", error: err.message });
   }
 };

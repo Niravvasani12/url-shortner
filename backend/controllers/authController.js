@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { sendOtpMail } from "../utils/sendEmail.js";
+import { isEmailConfigured, sendOtpMail } from "../utils/sendEmail.js";
 import { generateOtp } from "../utils/generateOtp.js";
 
 const OTP_EXPIRY_MS = 10 * 60 * 1000;
@@ -37,6 +37,12 @@ export const signup = async (req, res) => {
     user.otpExpires = otpExpires;
     user.isVerified = false;
 
+    if (!isEmailConfigured()) {
+      return res.status(503).json({
+        msg: "Signup is unavailable because OTP email service is not configured.",
+      });
+    }
+
     await sendOtpMail(normalizedEmail, otp);
     await user.save();
 
@@ -63,6 +69,12 @@ export const resendOtp = async (req, res) => {
     const otp = generateOtp();
     user.otp = otp;
     user.otpExpires = new Date(Date.now() + OTP_EXPIRY_MS);
+
+    if (!isEmailConfigured()) {
+      return res.status(503).json({
+        msg: "OTP resend is unavailable because email service is not configured.",
+      });
+    }
 
     await sendOtpMail(normalizedEmail, otp);
     await user.save();
@@ -120,6 +132,12 @@ export const login = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+
+    if (!process.env.JWT_SECRET) {
+      return res
+        .status(500)
+        .json({ msg: "Server auth configuration is incomplete" });
+    }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",

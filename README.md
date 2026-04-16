@@ -1,25 +1,50 @@
-# 🔗 URL Shortener
+# URL Shortener
 
+A full-stack URL shortener with authentication, OTP verification, and per-user URL management.
 
-# 🔗 https://url-shortner-niv.vercel.app/
-- Deployable Project Just Click On Above Link And Verify My Project 
+## Stack
+- Frontend: React + Vite
+- Backend: Node.js + Express
+- Database: MongoDB Atlas
 
-A simple and fast URL shortener that converts long URLs into short, shareable links.
+## Project Structure
+- `frontend/` React app
+- `backend/` Express API
 
-## ✨ Features
-- Shorten long URLs
-- Redirect to original URLs
-- Clean and simple UI
-- REST API support
+## Production Notes
+- Signup requires working email/SMTP environment variables because OTP verification is mandatory.
+- Set `PUBLIC_BASE_URL` in backend so generated short links use your deployed domain.
+- Set `CORS_ORIGINS` in backend to your frontend domain(s), comma-separated.
 
-## 🛠 Tech Stack
-- Frontend: HTML, CSS, JavaScript
-- Backend: Node.js, Express
-- Database: MongoDB
-
-## 🚀 Installation
+## Local Setup
+1. Install dependencies:
 ```bash
-git clone https://github.com/Niravvasani12/url-shortner.git
-cd url-shortner
-npm install
-npm start
+cd backend && npm install
+cd ../frontend && npm install
+```
+2. Configure env files:
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
+3. Run backend:
+```bash
+cd backend
+npm run dev
+```
+4. Run frontend:
+```bash
+cd frontend
+npm run dev
+```
+
+## Build Frontend
+```bash
+cd frontend
+npm run build
+```
+
+## API Base
+- Auth routes: `/api/auth/*`
+- URL routes: `/api/url/*`
+- Health check: `/health`

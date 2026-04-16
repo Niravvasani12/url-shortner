@@ -20,7 +20,7 @@ const Dashboard = () => {
     } catch (err) {
       console.error("Error loading URLs:", err);
       setError(
-        err.response?.data?.message ||
+        err.response?.data?.msg ||
           err.message ||
           "Failed to load URLs. Please try again."
       );

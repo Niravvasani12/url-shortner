@@ -1,15 +1,18 @@
 import mongoose from "mongoose";
 
 const connectDB = async () => {
+  const mongoUri = process.env.MONGO_URI;
+
+  if (!mongoUri) {
+    console.error("MONGO_URI is missing. Add it to your backend environment variables.");
+    process.exit(1);
+  }
+
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("MongoDB Tari Sathe Joday Gayu che .");
-    console.log(" MongoDB connected");
+    await mongoose.connect(mongoUri);
+    console.log("MongoDB connected");
   } catch (error) {
-    console.error(" MongoDB connection failed", error.message);
+    console.error("MongoDB connection failed", error.message);
     process.exit(1);
   }
 };

@@ -1,34 +1,48 @@
 import nodemailer from "nodemailer";
 
+let transporter;
+
+export const isEmailConfigured = () => {
+  return Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS);
+};
+
+const createTransporter = () => {
+  const emailUser = process.env.EMAIL_USER;
+  const emailPass = process.env.EMAIL_PASS;
+
+  if (!emailUser || !emailPass) {
+    throw new Error("EMAIL_USER/EMAIL_PASS are not configured");
+  }
+
+  if (process.env.SMTP_HOST) {
+    return nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT || 587),
+      secure: process.env.SMTP_SECURE === "true",
+      auth: {
+        user: emailUser,
+        pass: emailPass,
+      },
+    });
+  }
+
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: emailUser,
+      pass: emailPass,
+    },
+  });
+};
+
 export const sendOtpMail = async (to, otp) => {
   try {
-    const emailUser = process.env.EMAIL_USER;
-    const emailPass = process.env.EMAIL_PASS;
-    const emailFrom = process.env.EMAIL_FROM || emailUser;
+    const emailFrom = process.env.EMAIL_FROM || process.env.EMAIL_USER;
 
-    if (!emailUser || !emailPass) {
-      throw new Error("Email configuration is missing");
+    if (!transporter) {
+      transporter = createTransporter();
+      await transporter.verify();
     }
-
-    const transporter = process.env.SMTP_HOST
-      ? nodemailer.createTransport({
-          host: process.env.SMTP_HOST,
-          port: Number(process.env.SMTP_PORT || 587),
-          secure: process.env.SMTP_SECURE === "true",
-          auth: {
-            user: emailUser,
-            pass: emailPass,
-          },
-        })
-      : nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: emailUser,
-            pass: emailPass,
-          },
-        });
-
-    await transporter.verify();
 
     await transporter.sendMail({
       from: emailFrom,
